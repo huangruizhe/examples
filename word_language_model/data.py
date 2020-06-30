@@ -61,6 +61,9 @@ class Corpus(object):
         #         for word in words:
         #             self.dictionary.add_word(word)
 
+        UNK = "<UNK>"
+        unk_id = self.dictionary.word2idx[UNK]
+
         # count tokens:
         with gzip.open(path, mode='rt', encoding="utf8") if path.endswith('.gz') \
                 else open(path, 'r', encoding="utf8") as f:
@@ -83,7 +86,7 @@ class Corpus(object):
                     continue
                 words = line.split() + ['<eos>']
                 for word in words:
-                    ids[token] = self.dictionary.word2idx[word]
+                    ids[token] = self.dictionary.word2idx.get(word, unk_id)
                     token += 1
 
         return ids
