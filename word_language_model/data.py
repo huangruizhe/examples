@@ -24,6 +24,8 @@ class Dictionary(object):
     def load_from_pkl(self, path):
         with open(path, 'rb') as handle:
             self.word2idx, c2idx, max_idx = pickle.load(handle)
+        self.word2idx['<eos>'] = max_idx
+        max_idx += 1
 
         idx2c = dict()
         for c, id in c2idx.items():
